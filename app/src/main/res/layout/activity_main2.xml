@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.rongsheng.yuyindemo.Main2Activity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="语音合成"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:textColor="#0E7C0E"/>
+    <EditText
+        android:id="@+id/et_shibie"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:hint="输入文字"
+        android:gravity="left|top"
+        android:textSize="18sp"/>
+
+    <Button
+        android:id="@+id/bt_statrt_hecheng"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="开始合成" />
+</LinearLayout>
