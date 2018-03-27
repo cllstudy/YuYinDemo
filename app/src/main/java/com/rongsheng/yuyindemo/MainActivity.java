@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -53,21 +54,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mNlsClient.setMinRecordTime(500);    //设置最大录音中断时间
         mNlsClient.setRecordAutoStop(false);  //设置VAD
         mNlsClient.setMinVoiceValueInterval(200); //设置音量回调时长
-        initStartRecognizing();
-        initStopRecognizing();
+//        initStartRecognizing();
+//        initStopRecognizing();
     }
 
     private void initView() {
         mTvShowtext = (TextView) findViewById(R.id.tv_showtext);
         mBtOpen = (Button) findViewById(R.id.bt_open);
         mBtStop = (Button) findViewById(R.id.bt_stop);
-
+         mBtOpen.setOnTouchListener(new myOnTouchListener());
         statrt_hecheng = (Button) findViewById(R.id.statrt_hecheng);
         statrt_hecheng.setOnClickListener(this);
         mKuaisu = (Button) findViewById(R.id.kuaisu);
         mKuaisu.setOnClickListener(this);
     }
-
+    private class myOnTouchListener implements View.OnTouchListener {
+        @Override
+        public boolean onTouch(View v, MotionEvent event){
+            int action = event.getAction();
+           switch (action) {
+               case MotionEvent.ACTION_DOWN:
+                   //按下
+                   initStartRecognizing();
+                   break;
+               case MotionEvent.ACTION_UP:
+                   //松开
+                   initStopRecognizing();
+                   break;
+            }
+            return false;
+        }
+    }
     private NlsRequest initNlsRequest() {
         NlsRequestProto proto = new NlsRequestProto(context);
         proto.setApp_user_id("CLL"); //设置在应用中的用户名，可选
@@ -75,28 +92,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initStartRecognizing() {
-        mBtOpen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 isRecognizing = true;
                 mTvShowtext.setText("正在录音，请稍候！");
                 mNlsRequest.authorize("LTAIZ5mIISpcZKfR", "K7xUsmUoHroqQbq3XlAsNqGenQJOdW"); //请替换为用户申请到的Access Key ID和Access Key Secret
                 mNlsClient.start();
                 mBtOpen.setText("录音中。。。");
-            }
-        });
     }
 
     private void initStopRecognizing() {
-        mBtStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 isRecognizing = false;
                 mTvShowtext.setText("");
                 mNlsClient.stop();
                 mBtOpen.setText("开始 录音");
-            }
-        });
     }
 
 
