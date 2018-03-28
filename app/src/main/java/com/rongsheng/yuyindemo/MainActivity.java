@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private NlsClient mNlsClient;
     private NlsRequest mNlsRequest;
     private Context context;
-    private Button mBtStop;
     private Button statrt_hecheng;
     private Button mKuaisu;
 
@@ -54,14 +53,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mNlsClient.setMinRecordTime(500);    //设置最大录音中断时间
         mNlsClient.setRecordAutoStop(false);  //设置VAD
         mNlsClient.setMinVoiceValueInterval(200); //设置音量回调时长
-//        initStartRecognizing();
-//        initStopRecognizing();
     }
 
     private void initView() {
         mTvShowtext = (TextView) findViewById(R.id.tv_showtext);
         mBtOpen = (Button) findViewById(R.id.bt_open);
-        mBtStop = (Button) findViewById(R.id.bt_stop);
          mBtOpen.setOnTouchListener(new myOnTouchListener());
         statrt_hecheng = (Button) findViewById(R.id.statrt_hecheng);
         statrt_hecheng.setOnClickListener(this);
