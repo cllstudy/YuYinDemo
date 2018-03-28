@@ -1,8 +1,6 @@
 package com.rongsheng.yuyindemo;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -17,32 +15,29 @@ import com.alibaba.idst.nls.StageListener;
 import com.alibaba.idst.nls.internal.protocol.NlsRequest;
 import com.alibaba.idst.nls.internal.protocol.NlsRequestProto;
 import com.google.gson.Gson;
-import com.yanzhenjie.permission.AndPermission;
-import com.yanzhenjie.permission.PermissionNo;
-import com.yanzhenjie.permission.PermissionYes;
-import com.yanzhenjie.permission.Rationale;
-import com.yanzhenjie.permission.RationaleListener;
-
-import java.util.List;
 
 import static com.rongsheng.yuyindemo.Config.AKID;
 import static com.rongsheng.yuyindemo.Config.AKS;
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+/**
+ * @desc 手指滑动取消录音
+ * @author  lei
+ * @date  2018/3/28 0028 -- 上午 10:04.
+ * 个人博客站: http://www.bestlei.top
+ */
+public class Main4Activity extends AppCompatActivity{
 
     private TextView mTvShowtext;
-    private Button mBtOpen;
     private boolean isRecognizing = false;
     private NlsClient mNlsClient;
     private NlsRequest mNlsRequest;
     private Context context;
-    private Button statrt_hecheng;
-    private Button mKuaisu,wx;
+    Button yuyin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main4);
+        context = getApplicationContext();
         context = getApplicationContext();
         mNlsRequest = initNlsRequest();
         String appkey = "nls-service"; //请设置简介页面的Appkey
@@ -53,11 +48,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NlsClient.openLog(true);
         NlsClient.configure(getApplicationContext()); //全局配置
         initView();
-        initPermission();
         initNls();
 
     }
-
     private void initNls() {
         mNlsClient = NlsClient.newInstance(this, mRecognizeListener, mStageListener, mNlsRequest);                          //实例化NlsClient
         mNlsClient.setMaxRecordTime(60000);  //设置最长语音
@@ -66,32 +59,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mNlsClient.setRecordAutoStop(false);  //设置VAD
         mNlsClient.setMinVoiceValueInterval(200); //设置音量回调时长
     }
-
     private void initView() {
         mTvShowtext = (TextView) findViewById(R.id.tv_showtext);
-        mBtOpen = (Button) findViewById(R.id.bt_open);
-         mBtOpen.setOnTouchListener(new myOnTouchListener());
-        statrt_hecheng = (Button) findViewById(R.id.statrt_hecheng);
-        statrt_hecheng.setOnClickListener(this);
-        mKuaisu = (Button) findViewById(R.id.kuaisu);
-        wx = (Button) findViewById(R.id.wx);
-        mKuaisu.setOnClickListener(this);
-        wx.setOnClickListener(this);
-
+        yuyin = (Button) findViewById(R.id.yuyin);
+        yuyin.setOnTouchListener(new myOnTouchListener());
     }
     private class myOnTouchListener implements View.OnTouchListener {
         @Override
         public boolean onTouch(View v, MotionEvent event){
             int action = event.getAction();
-           switch (action) {
-               case MotionEvent.ACTION_DOWN:
-                   //按下
-                   initStartRecognizing();
-                   break;
-               case MotionEvent.ACTION_UP:
-                   //松开
-                   initStopRecognizing();
-                   break;
+            int start_x=0,start_y=0,end_x,end_y,mov_x,mov_y;
+            switch (action) {
+                case MotionEvent.ACTION_DOWN:
+                    //按下
+                    start_x=(int)event.getX();
+                    start_y=(int)event.getY();
+                    initStartRecognizing();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    //松开
+                    end_x=(int) event.getX();
+                    end_y=(int)event.getY();
+                    mov_x=Math.abs(start_x-end_x);
+                    mov_y=Math.abs(start_y-end_y);
+                    if (mov_x > 200 || mov_y > 200) {
+                        mNlsClient.cancel();
+                        mTvShowtext.setText("");
+                    } else {
+                        initStopRecognizing();
+                    }
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    end_x=(int) event.getX();
+                    end_y=(int)event.getY();
+                    mov_x=Math.abs(start_x-end_x);
+                    mov_y=Math.abs(start_y-end_y);
+                    if (mov_x>150||mov_y>150) {
+                        mNlsClient.cancel();
+                        mTvShowtext.setText("");
+
+                    }
+                    break;
             }
             return false;
         }
@@ -103,18 +111,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initStartRecognizing() {
-                isRecognizing = true;
-                mTvShowtext.setText("正在录音，请稍候！");
-                mNlsRequest.authorize(AKID, AKS); //请替换为用户申请到的Access Key ID和Access Key Secret
-                mNlsClient.start();
-                mBtOpen.setText("录音中。。。");
+        isRecognizing = true;
+        mTvShowtext.setText("正在录音，请稍候！");
+        mNlsRequest.authorize(AKID, AKS); //请替换为用户申请到的Access Key ID和Access Key Secret
+        mNlsClient.start();
     }
 
     private void initStopRecognizing() {
-                isRecognizing = false;
-                mTvShowtext.setText("");
-                mNlsClient.stop();
-                mBtOpen.setText("开始 录音");
+        isRecognizing = false;
+        mTvShowtext.setText("");
+        mNlsClient.stop();
     }
 
 
@@ -128,13 +134,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     mTvShowtext.setText(stu.getResult());
                     break;
                 case NlsClient.ErrorCode.RECOGNIZE_ERROR:
-                    Toast.makeText(MainActivity.this, "recognizer error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Main4Activity.this, "录音错误", Toast.LENGTH_LONG).show();
                     break;
                 case NlsClient.ErrorCode.RECORDING_ERROR:
-                    Toast.makeText(MainActivity.this, "recording error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Main4Activity.this, "录音识别错误", Toast.LENGTH_LONG).show();
                     break;
                 case NlsClient.ErrorCode.NOTHING:
-                    Toast.makeText(MainActivity.this, "nothing", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Main4Activity.this, "什么都没说", Toast.LENGTH_LONG).show();
+                    break;
+                case NlsClient.ErrorCode.USER_CANCEL:
+                    Toast.makeText(Main4Activity.this, "用户取消录音", Toast.LENGTH_LONG).show();
                     break;
             }
             isRecognizing = false;
@@ -155,45 +164,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             super.onVoiceVolume(volume);
         }
     };
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.statrt_hecheng:
-                Intent intent = new Intent(MainActivity.this, Main2Activity.class);
-                startActivity(intent);
-                break;
-            case R.id.kuaisu:
-                Intent intent2=new Intent(MainActivity.this,Main3Activity.class);
-                startActivity(intent2);
-                break;
-            case R.id.wx:
-                Intent intent3=new Intent(MainActivity.this,Main4Activity.class);
-                startActivity(intent3);
-                break;
-        }
-    }
-    private void initPermission() {
-        AndPermission.with(this)
-                .requestCode(300)
-                .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO)
-                .rationale(new RationaleListener() {
-                    @Override
-                    public void showRequestPermissionRationale(int requestCode, Rationale rationale) {
-                        AndPermission.rationaleDialog(MainActivity.this, rationale)
-                        .show();
-                    }
-                })
-                .callback(this)
-                .start();
-    }
-
-    @PermissionYes(300)
-    private void getPermissionYes(List<String> grantedPermissions) {
-    }
-
-    @PermissionNo(300)
-    private void getPermissionNo(List<String> deniedPermissions) {
-        AndPermission.defaultSettingDialog(MainActivity.this, 300).show();
-    }
 }

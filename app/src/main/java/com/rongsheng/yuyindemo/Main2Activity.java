@@ -17,8 +17,15 @@ import com.alibaba.idst.nls.NlsListener;
 import com.alibaba.idst.nls.internal.protocol.NlsRequest;
 import com.alibaba.idst.nls.internal.protocol.NlsRequestProto;
 
+import static com.rongsheng.yuyindemo.Config.AKID;
+import static com.rongsheng.yuyindemo.Config.AKS;
 import static com.rongsheng.yuyindemo.R.id.et_shibie;
-
+/**
+ * @desc 语音合成
+ * @author  lei
+ * @date  2018/3/28 0028 -- 上午 10:25.
+ * 个人博客站: http://www.bestlei.top
+ */
 public class Main2Activity extends AppCompatActivity {
 
     private static final String TAG = "CLL";
@@ -72,7 +79,7 @@ public class Main2Activity extends AppCompatActivity {
                     mNlsRequest.setTtsVolume(50);   //音量大小默认50，阈值0-100
                     mNlsRequest.setTtsSpeechRate(0);//语速，阈值-500~500
                     mNlsClient.PostTtsRequest(user_input); //用户输入文本
-                    mNlsRequest.authorize("LTAIZ5mIISpcZKfR", "K7xUsmUoHroqQbq3XlAsNqGenQJOdW");       //请替换为用户申请到的数加认证key和密钥
+                    mNlsRequest.authorize(AKID, AKS);       //请替换为用户申请到的数加认证key和密钥
                     audioTrack.play();
                 }
             }

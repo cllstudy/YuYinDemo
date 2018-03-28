@@ -16,6 +16,9 @@ import com.alibaba.idst.nls.internal.protocol.NlsRequest;
 import com.alibaba.idst.nls.internal.protocol.NlsRequestASR;
 import com.google.gson.Gson;
 
+import static com.rongsheng.yuyindemo.Config.AKID;
+import static com.rongsheng.yuyindemo.Config.AKS;
+
 public class Main3Activity extends AppCompatActivity{
 
     private static final String TAG = "AAA";
@@ -39,8 +42,8 @@ public class Main3Activity extends AppCompatActivity{
         initView();
         mNlsRequest = new NlsRequest();
         appKey = "nls-service"; //参考文档
-        id = "LTAIZ5mIISpcZKfR";
-        secret = "K7xUsmUoHroqQbq3XlAsNqGenQJOdW";//请替换为用户申请到的数加认证Access Key和Access Srcret，见上方文档
+        id = AKID;
+        secret = AKS;//请替换为用户申请到的数加认证Access Key和Access Srcret，见上方文档
         mNlsRequest.setApp_key(appKey);    //appkey请从 "快速开始" 帮助页面的appkey列表中获取
         mNlsRequest.setAsrResposeMode(NlsRequestASR.mode.STREAMING);//流式为streaming,非流式为normal
         //设置热词相关属性
@@ -122,14 +125,6 @@ public class Main3Activity extends AppCompatActivity{
             mTvShowtext.setText(mStu.getResult());
             mNlsClient.stop();
             mBtOpen.setText("开始录音");
-        }
-        @Override
-        public void onStartRecording(NlsClient recognizer) {
-            super.onStartRecording(recognizer);    //To change body of overridden methods use File | Settings | File Templates.
-        }
-        @Override
-        public void onStopRecording(NlsClient recognizer) {
-            super.onStopRecording(recognizer);    //To change body of overridden methods use File | Settings | File Templates.
         }
         @Override
         public void onVoiceVolume(int volume) {

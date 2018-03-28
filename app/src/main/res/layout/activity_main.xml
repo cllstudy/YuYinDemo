@@ -46,4 +46,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="实时语音识别" />
+
+
+    <Button
+        android:id="@+id/wx"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="按下松开(60S)" />
+
 </LinearLayout>
