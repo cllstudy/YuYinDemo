@@ -12,9 +12,13 @@ public class Config {
      * 请更换阿里云申请的id和key
      * 见https://help.aliyun.com/product/30413.html?spm=a2c0j.8155980.header.3.4030HLvfHLvfYa 说明
      */
-   /*请替换为用户申请到的Access Key ID*/
-    public static final String AKID = "LTAIZ5mIISpcZKfR";
-  /*请替换为用户申请到的Access Key Secret*/
-    public static final String AKS = "K7xUsmUoHroqQbq3XlAsNqGenQJOdW";
+   /*
+    *请填写用户申请到的Access Key ID
+   */
+    public static final String AKID = "";
+    /**
+     * 请填写用户申请到的Access Key Secret
+     */
+    public static final String AKS = "";
 
 }

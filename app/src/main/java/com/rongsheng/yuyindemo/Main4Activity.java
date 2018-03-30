@@ -38,7 +38,7 @@ public class Main4Activity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main4);
         context = getApplicationContext();
-        context = getApplicationContext();
+     
         mNlsRequest = initNlsRequest();
         String appkey = "nls-service"; //请设置简介页面的Appkey
         mNlsRequest.setApp_key(appkey);    //appkey列表中获取

@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mKuaisu.setOnClickListener(this);
         wx.setOnClickListener(this);
 
+
     }
     private class myOnTouchListener implements View.OnTouchListener {
         @Override
