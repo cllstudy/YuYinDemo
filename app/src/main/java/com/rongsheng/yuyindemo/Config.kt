@@ -1,4 +1,4 @@
-package com.rongsheng.yuyindemo;
+package com.rongsheng.yuyindemo
 
 /**
  * @author : lei
@@ -7,18 +7,18 @@ package com.rongsheng.yuyindemo;
  * 个人博客站: http://www.bestlei.top
  */
 
-public class Config {
+object Config {
     /**
      * 请更换阿里云申请的id和key
      * 见https://help.aliyun.com/product/30413.html?spm=a2c0j.8155980.header.3.4030HLvfHLvfYa 说明
      */
-   /*
+    /*
     *请填写用户申请到的Access Key ID
    */
-    public static final String AKID = "";
+    val AKID = "LTAIBLLF9o3Sn04C"
     /**
      * 请填写用户申请到的Access Key Secret
      */
-    public static final String AKS = "";
+    val AKS = "k2FEpHGuR4kMAu8BPEL1maVcJ87uMg"
 
 }
