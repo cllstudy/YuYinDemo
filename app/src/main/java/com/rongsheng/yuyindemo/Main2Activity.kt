@@ -30,7 +30,7 @@ class Main2Activity : AppCompatActivity() {
     private var mNlsClient: NlsClient? = null
     private var mNlsRequest: NlsRequest? = null
     private var context: Context? = null
-    internal var iMinBufSize = AudioTrack.getMinBufferSize(16000,
+    private var iMinBufSize = AudioTrack.getMinBufferSize(16000,
             AudioFormat.CHANNEL_CONFIGURATION_MONO,
             AudioFormat.ENCODING_PCM_16BIT)
     internal var audioTrack = AudioTrack(AudioManager.STREAM_MUSIC, 16000,
@@ -84,19 +84,17 @@ class Main2Activity : AppCompatActivity() {
         return NlsRequest(proto)
     }
 
-    private fun initTtsContentButton() {
-        mBtStatrtHecheng!!.setOnClickListener {
-            val user_input = mEtShibie!!.text.toString()
-            if (user_input == "") {
-                Toast.makeText(this@Main2Activity, "输入不能为空！", Toast.LENGTH_LONG).show()
-            } else {
-                mNlsRequest!!.setTtsEncodeType("pcm") //返回语音数据格式，支持pcm,wav.alaw
-                mNlsRequest!!.setTtsVolume(50)   //音量大小默认50，阈值0-100
-                mNlsRequest!!.setTtsSpeechRate(0)//语速，阈值-500~500
-                mNlsClient!!.PostTtsRequest(user_input) //用户输入文本
-                mNlsRequest!!.authorize(AKID, AKS)       //请替换为用户申请到的数加认证key和密钥
-                audioTrack.play()
-            }
+    private fun initTtsContentButton() = mBtStatrtHecheng!!.setOnClickListener {
+        val user_input = mEtShibie!!.text.toString()
+        if (user_input == "") {
+            Toast.makeText(this@Main2Activity, "输入不能为空！", Toast.LENGTH_LONG).show()
+        } else {
+            mNlsRequest!!.setTtsEncodeType("pcm") //返回语音数据格式，支持pcm,wav.alaw
+            mNlsRequest!!.setTtsVolume(50)   //音量大小默认50，阈值0-100
+            mNlsRequest!!.setTtsSpeechRate(0)//语速，阈值-500~500
+            mNlsClient!!.PostTtsRequest(user_input) //用户输入文本
+            mNlsRequest!!.authorize(AKID, AKS)       //请替换为用户申请到的数加认证key和密钥
+            audioTrack.play()
         }
     }
 

@@ -49,17 +49,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
     private val mStageListener = object : StageListener() {
-        override fun onVoiceVolume(volume: Int) {
-            super.onVoiceVolume(volume)
-        }
+        override fun onVoiceVolume(volume: Int) = super.onVoiceVolume(volume)
 
-        override fun onStartRecognizing(recognizer: NlsClient?) {
-            super.onStartRecognizing(recognizer)    //To change body of overridden methods use File | Settings | File Templates.
-        }
+        override fun onStartRecognizing(recognizer: NlsClient?) =
+                super.onStartRecognizing(recognizer)
 
-        override fun onStopRecognizing(recognizer: NlsClient?) {
-            super.onStopRecognizing(recognizer)    //To change body of overridden methods use File | Settings | File Templates.
-        }
+        override fun onStopRecognizing(recognizer: NlsClient?) =
+                super.onStopRecognizing(recognizer)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,17 +96,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
-    private fun initPermission() {
-        AndPermission.with(this)
-                .requestCode(300)
-                .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO)
-                .rationale { requestCode, rationale ->
-                    AndPermission.rationaleDialog(this@MainActivity, rationale)
-                            .show()
-                }
-                .callback(this)
-                .start()
-    }
+    private fun initPermission() = AndPermission.with(this)
+            .requestCode(300)
+            .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO)
+            .rationale { requestCode, rationale ->
+                AndPermission.rationaleDialog(this@MainActivity, rationale)
+                        .show()
+            }
+            .callback(this)
+            .start()
 
     private fun initNls() {
         mNlsClient = NlsClient.newInstance(this, mRecognizeListener, mStageListener, mNlsRequest)                          //实例化NlsClient
@@ -154,13 +148,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     @PermissionYes(300)
-    private fun getPermissionYes(grantedPermissions: List<String>) {
-    }
+    private fun getPermissionYes(grantedPermissions: List<String>) = Unit
 
     @PermissionNo(300)
-    private fun getPermissionNo(deniedPermissions: List<String>) {
-        AndPermission.defaultSettingDialog(this@MainActivity, 300).show()
-    }
+    private fun getPermissionNo(deniedPermissions: List<String>) =
+            AndPermission.defaultSettingDialog(this@MainActivity, 300).show()
 
     private inner class myOnTouchListener : View.OnTouchListener {
         override fun onTouch(v: View, event: MotionEvent): Boolean {

@@ -33,7 +33,7 @@ class Main4Activity : AppCompatActivity() {
     private var mNlsClient: NlsClient? = null
     private var mNlsRequest: NlsRequest? = null
     private var context: Context? = null
-    internal var yuyin: Button? = null
+    private var yuyin: Button? = null
 
 
     private val mRecognizeListener = object : NlsListener() {

@@ -50,9 +50,8 @@ class Main3Activity : AppCompatActivity() {
         }
     }
     private val mStageListener = object : StageListener() {
-        override fun onStartRecognizing(recognizer: NlsClient?) {
-            super.onStartRecognizing(recognizer)    //To change body of overridden methods use File | Settings | File Templates.
-        }
+        override fun onStartRecognizing(recognizer: NlsClient?) =
+                super.onStartRecognizing(recognizer)    //To change body of overridden methods use File | Settings | File Templates.
 
         override fun onStopRecognizing(recognizer: NlsClient?) {
             super.onStopRecognizing(recognizer)    //To change body of overridden methods use File | Settings | File Templates.
@@ -61,9 +60,7 @@ class Main3Activity : AppCompatActivity() {
             mBtOpen!!.text = "开始录音"
         }
 
-        override fun onVoiceVolume(volume: Int) {
-            super.onVoiceVolume(volume)
-        }
+        override fun onVoiceVolume(volume: Int) = super.onVoiceVolume(volume)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,23 +90,19 @@ class Main3Activity : AppCompatActivity() {
         mBtStop = findViewById(R.id.bt_stop) as Button
     }
 
-    private fun initStartRecognizing() {
-        mBtOpen!!.setOnClickListener {
-            isRecognizing = true
-            mTvShowtext!!.text = "正在录音，请稍候！"
-            mNlsRequest!!.authorize(id, secret) //请替换为用户申请到的数加认证Access Key和Access Srcret，见上方文档
-            mNlsClient!!.start()
-            mBtOpen!!.text = "录音中。。。"
-        }
+    private fun initStartRecognizing() = mBtOpen!!.setOnClickListener {
+        isRecognizing = true
+        mTvShowtext!!.text = "正在录音，请稍候！"
+        mNlsRequest!!.authorize(id, secret) //请替换为用户申请到的数加认证Access Key和Access Srcret，见上方文档
+        mNlsClient!!.start()
+        mBtOpen!!.text = "录音中。。。"
     }
 
-    private fun initStopRecognizing() {
-        mBtStop!!.setOnClickListener {
-            isRecognizing = false
-            mTvShowtext!!.text = ""
-            mNlsClient!!.stop()
-            mBtOpen!!.text = "开始录音"
-        }
+    private fun initStopRecognizing() = mBtStop!!.setOnClickListener {
+        isRecognizing = false
+        mTvShowtext!!.text = ""
+        mNlsClient!!.stop()
+        mBtOpen!!.text = "开始录音"
     }
 
     companion object {
